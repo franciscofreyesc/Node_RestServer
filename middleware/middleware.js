@@ -17,7 +17,7 @@ let verificaToken = (req, resp, next) => {
 
 let verificaAdminRole = (req, resp, next) => {
     let rol = req.body.role;
-    console.log('Rol:', rol);
+    console.log('Rol:', req);
     if (rol != 'ADMIN_ROLE') {
         return resp.status(400).json({
             statusCode: '-01',
