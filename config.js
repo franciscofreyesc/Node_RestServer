@@ -6,6 +6,16 @@ PORT = process.env.PORT || 3000;
 // ============================
 process.env.NODE_ENV = process.env.NODE_ENV || 'dev';
 
+// ============================
+//  Expira Token
+// ============================
+EXP_TOKEN = process.env.EXP_TOKEN || 60 * 60;
+
+// ============================
+//  Secreto Token
+// ============================
+
+SECRET_TOKEN = process.env.SECRET_TOKEN || 'secreto-del-token-jajaja';
 
 // ============================
 //  Base de datos

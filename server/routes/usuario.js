@@ -4,11 +4,12 @@ const bodyParser = require('body-parser');
 const Usuario = require('../model/usuario');
 const bcrypt = require('bcrypt');
 const _ = require('underscore');
+const { verificaToken, verificaAdminRole } = require('../../middleware/middleware');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.get('/usuario', (req, resp) => {
+app.get('/usuario', verificaToken, (req, resp) => {
 
     let desde = req.query.desde || 0;
     desde = Number(desde);
@@ -24,11 +25,11 @@ app.get('/usuario', (req, resp) => {
             if (err) {
                 return resp.status(400).json({
                     statusCode: '-01',
-                    message
+                    message: err
                 });
             }
 
-            Usuario.count({ estado: true }, (err, conteo) => {
+            Usuario.countDocuments({ estado: true }, (err, conteo) => {
 
                 resp.json({
                     statusCode: true,
@@ -42,7 +43,7 @@ app.get('/usuario', (req, resp) => {
         });
 });
 
-app.post('/usuario', (req, resp) => {
+app.post('/usuario', [verificaToken, verificaAdminRole], (req, resp) => {
 
     let body = req.body;
 
@@ -68,7 +69,7 @@ app.post('/usuario', (req, resp) => {
     });
 });
 
-app.put('/usuario/:id', (req, resp) => {
+app.put('/usuario/:id', [verificaToken, verificaAdminRole], (req, resp) => {
     let id = req.params.id;
     let body = _.pick(req.body, ['nombre', 'email', 'img', 'role', 'estado']);
 
@@ -89,7 +90,7 @@ app.put('/usuario/:id', (req, resp) => {
     })
 });
 
-app.delete('/usuario/:id', (req, resp) => {
+app.delete('/usuario/:id', [verificaToken, verificaAdminRole], (req, resp) => {
     let id = req.params.id;
 
     // Usuario.findByIdAndRemove(id, (err, usuarioBorrado) => {

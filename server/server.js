@@ -5,7 +5,7 @@ const express = require('express');
 const app = express();
 
 // routes
-app.use(require('./routes/usuario'));
+app.use(require('./routes/index'));
 
 
 // Conectar a la BD
