@@ -11,13 +11,16 @@ let verificaToken = (req, resp, next) => {
                 message: 'Token Inválido'
             });
         }
+        req.usuario = usuarioDB.usuario;
         next();
     });
 };
 
 let verificaAdminRole = (req, resp, next) => {
-    let rol = req.body.role;
-    console.log('Rol:', req);
+    let rol = req.usuario.role;
+
+    console.log('Rol:', rol);
+
     if (rol != 'ADMIN_ROLE') {
         return resp.status(400).json({
             statusCode: '-01',
